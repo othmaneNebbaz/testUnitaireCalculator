@@ -1,4 +1,4 @@
-name: Tests Java + Rapport
+name: Tests Java + Rapport avec Surefire
 
 on:
   push:
@@ -20,13 +20,13 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
 
-      - name: Lancer les tests
+      - name: Exécuter les tests
         run: mvn clean test
 
-      - name: Générer le rapport de test
+      - name: Générer le rapport de test HTML
         run: mvn surefire-report:report-only
 
-      - name: Upload du rapport comme artefact
+      - name: Uploader le rapport HTML
         uses: actions/upload-artifact@v4
         with:
           name: rapport-tests
