@@ -1,0 +1,33 @@
+name: Tests Java + Rapport
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  test-and-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cloner le repo
+        uses: actions/checkout@v3
+
+      - name: Installer Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+
+      - name: Lancer les tests
+        run: mvn clean test
+
+      - name: Générer le rapport de test
+        run: mvn surefire-report:report-only
+
+      - name: Upload du rapport comme artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-tests
+          path: target/site/
